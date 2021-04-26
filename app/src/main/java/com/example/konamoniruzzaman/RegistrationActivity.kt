@@ -3,6 +3,8 @@ package com.example.konamoniruzzaman
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
@@ -30,7 +32,7 @@ class RegistrationActivity : AppCompatActivity() {
         pDialog = SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE)
         pDialog.titleText = "Loading"
         pDialog.setCancelable(false)
-        // pDialog.show()
+
 
 
         spinnerLoad()
@@ -118,6 +120,11 @@ class RegistrationActivity : AppCompatActivity() {
                     .setTitleText("Warning")
                     .setContentText("Number Can't more or less than 11 Digit")
                     .show()
+            }else{
+                pDialog.show()
+
+
+                submit()
             }
 
 
@@ -143,6 +150,26 @@ class RegistrationActivity : AppCompatActivity() {
 
         }
 
+    }
+
+    private fun submit() {
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            pDialog.dismiss()
+
+
+            SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
+                .setTitleText("Success!")
+                .setContentText("Customer information added successfully")
+                .setConfirmText("Check Customer List")
+                .setConfirmClickListener { sDialog ->
+                    sDialog.dismissWithAnimation()
+                    var intent: Intent? = Intent(this, ViewCustomer::class.java)
+                    startActivity(intent)
+                }
+                .show()
+
+        }, 1000)
     }
 
     private fun spinnerLoad() {
