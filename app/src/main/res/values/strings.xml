@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">KonaMoniruzzaman</string>
+    <string-array name="postalCode">
+        <item>1200</item>
+        <item>1214</item>
+        <item>1330</item>
+    </string-array>
+
+    <string-array name="postOffice">
+        <item>Dhanmondi</item>
+        <item>Agargaon</item>
+        <item>Dhamrai</item>
+    </string-array>
+
+    <string-array name="thana">
+        <item>Dhanmobdi Model</item>
+        <item>Agargaon Model</item>
+        <item>Dhamrai sadar</item>
+    </string-array>
+
+    <string-array name="district">
+        <item>Dhaka</item>
+        <item>Dhaka</item>
+        <item>Saver</item>
+    </string-array>
 </resources>
