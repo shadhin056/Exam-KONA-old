@@ -5,13 +5,17 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProviders
 import cn.pedant.SweetAlert.SweetAlertDialog
+import com.shadhin.android_jetpack.view.model.CutomerModel
+import com.shadhin.android_jetpack.view.view_model.CustomerViewModel
 import kotlinx.android.synthetic.main.activity_registration.*
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -22,24 +26,23 @@ import java.util.regex.Pattern
 class RegistrationActivity : AppCompatActivity() {
     private lateinit var pDialog: SweetAlertDialog
     internal lateinit var picker: DatePickerDialog
-
+    private lateinit var viewModel: CustomerViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registration)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        viewModel = ViewModelProviders.of(this).get(CustomerViewModel::class.java)
         pDialog = SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE)
         pDialog.titleText = "Loading"
         pDialog.setCancelable(false)
 
-
-
         spinnerLoad()
         spinnerOnChange()
         buttonAction()
+        observeViewModel()
     }
-
     private fun spinnerOnChange() {
         spPostalCode.setOnItemSelectedListener(object : OnItemSelectedListener {
             override fun onItemSelected(
@@ -72,7 +75,6 @@ class RegistrationActivity : AppCompatActivity() {
             }
         })
     }
-
     fun ageCheck(): Boolean {
 
         // check if the age is >= 1
@@ -91,11 +93,7 @@ class RegistrationActivity : AppCompatActivity() {
         }
         return true
     }
-
-
     private fun buttonAction() {
-
-
         val anyNumberCheck = ".*\\d.*"
 
 
@@ -151,25 +149,22 @@ class RegistrationActivity : AppCompatActivity() {
         }
 
     }
-
     private fun submit() {
 
         Handler(Looper.getMainLooper()).postDelayed({
             pDialog.dismiss()
-
-
-            SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
-                .setTitleText("Success!")
-                .setContentText("Customer information added successfully")
-                .setConfirmText("Check Customer List")
-                .setConfirmClickListener { sDialog ->
-                    sDialog.dismissWithAnimation()
-                    var intent: Intent? = Intent(this, ViewCustomer::class.java)
-                    startActivity(intent)
-                }
-                .show()
-
+            cutomerInfoAdd()
         }, 1000)
+    }
+
+    private fun cutomerInfoAdd() {
+        val customer = CutomerModel(edtCustomerName.text.toString(), edtBirthday.text.toString(),
+            edtCustomerPhone.text.toString(),
+            spPostalCode.getSelectedItem().toString(),
+            spPostOffice.getSelectedItem().toString(),
+            spThane.getSelectedItem().toString(),
+            spDistrict.getSelectedItem().toString())
+        viewModel.storeCutomerLocally(customer)
     }
 
     private fun spinnerLoad() {
@@ -208,7 +203,27 @@ class RegistrationActivity : AppCompatActivity() {
         adapterForDistrict.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spDistrict.setAdapter(adapterForDistrict)
     }
+    private fun observeViewModel() {
 
+        viewModel.customer.observe(this, androidx.lifecycle.Observer {
+            it?.let {
+                SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
+                    .setTitleText("Success!")
+                    .setContentText(it)
+                    .setConfirmText("Check Customer List")
+                    .setConfirmClickListener { sDialog ->
+                        sDialog.dismissWithAnimation()
+                        var intent: Intent? = Intent(this, ViewCustomer::class.java)
+                        startActivity(intent)
+                    }
+                    .show()
+
+            }
+        })
+
+
+
+    }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
