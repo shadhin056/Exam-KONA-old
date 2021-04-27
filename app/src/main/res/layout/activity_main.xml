@@ -10,20 +10,38 @@
     <LinearLayout
         android:gravity="center"
         android:layout_gravity="center"
+        android:layout_margin="20dp"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <TextView
+            android:textAlignment="center"
+            android:layout_margin="20dp"
+            android:padding="20dp"
+            android:background="@color/blue_btn_bg_color"
+            android:textColor="@color/white"
+            android:text="MD.Moniruzzaman khondaker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </TextView>
         <Button
+            android:layout_margin="20dp"
+            android:background="@color/black"
+            android:textColor="@color/white"
             android:id="@+id/btnRegCustomer"
             android:text="Register Customer"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
         </Button>
         <Button
+            android:layout_margin="20dp"
+            android:background="@color/black"
+            android:textColor="@color/white"
             android:id="@+id/btnViewCustomer"
             android:text="View  Customer"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
         </Button>
