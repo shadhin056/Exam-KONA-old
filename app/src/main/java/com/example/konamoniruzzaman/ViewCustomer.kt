@@ -24,6 +24,7 @@ class ViewCustomer : AppCompatActivity() {
     private var recyclerView: RecyclerView? = null
     private var mAdapter: RequestAdapter? = null
     private lateinit var pDialog: SweetAlertDialog
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_view_customer)
@@ -38,13 +39,16 @@ class ViewCustomer : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this).get(ListViewModel::class.java)
 
 
+        //data will show after 1 second
         pDialog.show()
         Handler(Looper.getMainLooper()).postDelayed({
             pDialog.dismiss()
             viewModel.fetchFromDB()
         }, 1000)
 
+        //response when data fetch successfully
         obserViewModel();
+
         val mLayoutManager = LinearLayoutManager(applicationContext)
         recyclerView!!.setLayoutManager(mLayoutManager)
         recyclerView!!.setItemAnimator(DefaultItemAnimator())

@@ -33,14 +33,21 @@ class RegistrationActivity : AppCompatActivity() {
         setContentView(R.layout.activity_registration)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+
         viewModel = ViewModelProviders.of(this).get(CustomerViewModel::class.java)
         pDialog = SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE)
         pDialog.titleText = "Loading"
         pDialog.setCancelable(false)
 
+        //postal code , post office , thana , district data set
         spinnerLoad()
+
+        //change value after postal code change
         spinnerOnChange()
+
         buttonAction()
+
+        //response when data inserted successfully
         observeViewModel()
     }
     private fun spinnerOnChange() {
@@ -121,7 +128,7 @@ class RegistrationActivity : AppCompatActivity() {
             }else{
                 pDialog.show()
 
-
+                //call for data insert for customer
                 submit()
             }
 
@@ -151,6 +158,7 @@ class RegistrationActivity : AppCompatActivity() {
     }
     private fun submit() {
 
+        //data will insert after 1 second
         Handler(Looper.getMainLooper()).postDelayed({
             pDialog.dismiss()
             cutomerInfoAdd()
