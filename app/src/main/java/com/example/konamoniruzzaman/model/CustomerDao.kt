@@ -9,6 +9,6 @@ interface CustomerDataDao {
     @Insert
     suspend fun insertAll(vararg customer: CutomerModel): List<Long>
 
-    @Query("SELECT * FROM cutomermodel Limit 10")
+    @Query("SELECT * FROM cutomermodel ORDER BY uuid DESC Limit 10 ")
     suspend fun getAllUser(): List<CutomerModel>
 }
