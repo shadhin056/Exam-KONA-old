@@ -23,7 +23,9 @@
         android:layout_height="match_parent">
 
         <EditText
+            android:inputType="text"
             android:id="@+id/edtCustomerName"
+            android:singleLine="true"
             android:hint="Customer Name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
